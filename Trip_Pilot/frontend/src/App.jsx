@@ -7,7 +7,7 @@ import './App.css'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen">
+      <div className="min-h-screen grid-background">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
