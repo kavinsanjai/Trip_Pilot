@@ -11,7 +11,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <span className="text-xl font-black text-navy uppercase tracking-widest heading-font">
-              🦆 Trip Pilot
+              🐥 Trip Pilot
             </span>
           </Link>
 

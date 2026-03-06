@@ -140,7 +140,7 @@ const Landing = () => {
           {/* Team badge */}
           <div className="mt-16 text-center">
             <div className="inline-flex items-center gap-3 bg-navy text-cream px-8 py-4 rounded-2xl">
-              <span className="text-2xl">🦆</span>
+              <span className="text-2xl">🐥</span>
               <div className="text-left">
                 <div className="text-xs font-bold uppercase tracking-widest text-primary-light">Presented by</div>
                 <div className="text-base font-black uppercase heading-font">Team Debugging Ducks</div>

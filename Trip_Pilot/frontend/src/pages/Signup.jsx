@@ -11,7 +11,7 @@ const Signup = () => {
         <div className="absolute bottom-14 right-8 text-[3.5rem] opacity-40 select-none pointer-events-none">🏔️</div>
 
         <div className="text-white max-w-md relative z-10">
-          <div className="text-6xl mb-6">🦆</div>
+          <div className="text-6xl mb-6">🐥</div>
           <h1 className="text-4xl font-black uppercase mb-4 heading-font">Join Trip Pilot Today!</h1>
           <p className="text-white/50 text-sm uppercase tracking-widest mb-8">
             Create your account and start planning your dream trips with our AI-powered assistant.
