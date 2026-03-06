@@ -44,8 +44,8 @@ const SignupForm = () => {
       setError(error.message)
       setLoading(false)
     } else {
-      // Auto-login successful - redirect to home
-      navigate('/')
+      // Auto-login successful - redirect to dashboard
+      navigate('/dashboard')
     }
   }
 

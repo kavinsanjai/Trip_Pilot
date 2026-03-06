@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
 import tripRoutes from './routes/trip.js';
+import plannerRoutes from './routes/planner.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/trip', tripRoutes);
+app.use('/', plannerRoutes); // Trip planner routes
 
 // Root endpoint
 app.get('/', (req, res) => {
