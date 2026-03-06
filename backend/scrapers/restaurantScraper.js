@@ -1,11 +1,33 @@
 import { chromium } from 'playwright'
+import { generateRestaurantsWithAI } from '../services/aiDataGenerator.js'
 
 /**
- * Scrape restaurant options from Zomato and Google Maps
+ * Scrape restaurant options - AI-powered for ANY location worldwide
  * @param {string} location - City/location name
  * @returns {Promise<Array>} Array of restaurant options
  */
 export async function scrapeRestaurants(location) {
+  console.log(`Fetching restaurants for ${location}...`)
+  
+  // Try AI generation first (works for ANY location)
+  try {
+    const aiRestaurants = await generateRestaurantsWithAI(location)
+    if (aiRestaurants && aiRestaurants.length > 0) {
+      console.log(`✓ Generated ${aiRestaurants.length} restaurants for ${location} using AI`)
+      return aiRestaurants
+    }
+  } catch (error) {
+    console.log('AI generation failed, trying web scraping...')
+  }
+  
+  // Fallback to web scraping
+  return await scrapeFromWeb(location)
+}
+
+/**
+ * Web scraping fallback method
+ */
+async function scrapeFromWeb(location) {
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage()
   

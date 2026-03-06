@@ -1,13 +1,35 @@
 import { chromium } from 'playwright'
+import { generateTransportWithAI } from '../services/aiDataGenerator.js'
 
 /**
- * Scrape transportation options from RedBus and other sources
+ * Scrape transportation options - AI-powered for ANY route worldwide
  * @param {string} source - Source city
  * @param {string} destination - Destination city
  * @param {string} date - Travel date (YYYY-MM-DD format)
  * @returns {Promise<Array>} Array of transport options
  */
 export async function scrapeTransportOptions(source, destination, date) {
+  console.log(`Fetching transport options: ${source} → ${destination}...`)
+  
+  // Try AI generation first (works for ANY route)
+  try {
+    const aiTransport = await generateTransportWithAI(source, destination, date)
+    if (aiTransport && aiTransport.length > 0) {
+      console.log(`✓ Generated ${aiTransport.length} transport options using AI`)
+      return aiTransport
+    }
+  } catch (error) {
+    console.log('AI generation failed, trying web scraping...')
+  }
+  
+  // Fallback to web scraping
+  return await scrapeFromWeb(source, destination, date)
+}
+
+/**
+ * Web scraping fallback method
+ */
+async function scrapeFromWeb(source, destination, date) {
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage()
   

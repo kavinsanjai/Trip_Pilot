@@ -31,6 +31,12 @@ const Dashboard = () => {
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
 
+      // Prepare conversation history (last 10 messages)
+      const conversationHistory = messages.slice(-10).map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }))
+
       // Call backend API
       const response = await fetch('http://localhost:8000/plan-trip', {
         method: 'POST',
@@ -38,23 +44,53 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
           ...(token && { 'Authorization': `Bearer ${token}` })
         },
-        body: JSON.stringify({ prompt: message })
+        body: JSON.stringify({ 
+          prompt: message,
+          conversationHistory 
+        })
       })
 
       const data = await response.json()
       
-      // Add assistant response
-      const assistantMessage = { 
-        role: 'assistant', 
-        content: 'I\'ve planned your trip! Here are the details:',
-        tripData: data
+      // Handle different response types
+      if (data.type === 'trip_plan') {
+        // Full trip plan with itinerary
+        const assistantMessage = { 
+          role: 'assistant', 
+          content: 'I\'ve planned your trip! Here are the details:',
+          tripData: data
+        }
+        setMessages(prev => [...prev, assistantMessage])
+        setTripData(data)
+      } else if (data.type === 'clarification' || data.type === 'conversation') {
+        // Conversational response or asking for more info
+        const assistantMessage = { 
+          role: 'assistant', 
+          content: data.message
+        }
+        setMessages(prev => [...prev, assistantMessage])
+      } else if (data.type === 'error') {
+        // Error handling
+        const errorMessage = { 
+          role: 'assistant', 
+          content: data.message || 'Sorry, I encountered an error. Please try again.' 
+        }
+        setMessages(prev => [...prev, errorMessage])
+      } else {
+        // Fallback for old format
+        const assistantMessage = { 
+          role: 'assistant', 
+          content: 'I\'ve planned your trip! Here are the details:',
+          tripData: data
+        }
+        setMessages(prev => [...prev, assistantMessage])
+        setTripData(data)
       }
-      setMessages(prev => [...prev, assistantMessage])
-      setTripData(data)
     } catch (error) {
+      console.error('Error sending message:', error)
       const errorMessage = { 
         role: 'assistant', 
-        content: 'Sorry, I encountered an error planning your trip. Please try again.' 
+        content: 'Sorry, I encountered an error. Please check your connection and try again.' 
       }
       setMessages(prev => [...prev, errorMessage])
     } finally {
