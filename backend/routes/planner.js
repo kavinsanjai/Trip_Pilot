@@ -7,44 +7,104 @@ import { getWeatherForecast } from '../services/weatherService.js'
 import { getOverallCrowdAdvice } from '../services/crowdEstimator.js'
 import { generateTripPlans } from '../planner/optimizer.js'
 import { generateTimeline, generateChecklist } from '../planner/itineraryGenerator.js'
+import { 
+  classifyIntent, 
+  generateConversationalResponse, 
+  extractTripParameters,
+  hasEnoughTripInfo,
+  generateMissingInfoPrompt 
+} from '../services/conversationalAI.js'
+import { validateDestination } from '../services/aiDataGenerator.js'
 import supabase from '../config/supabase.js'
 
 const router = express.Router()
 
 /**
  * POST /plan-trip
- * Main trip planning endpoint
+ * Conversational trip planning endpoint
+ * Handles: questions, casual chat, partial info, complete trip planning
  */
 router.post('/plan-trip', async (req, res) => {
   try {
-    const { prompt } = req.body
+    const { prompt, conversationHistory = [] } = req.body
 
     if (!prompt) {
       return res.status(400).json({ 
-        error: 'Please provide a trip planning prompt',
-        example: 'Plan a 1 day trip from Ooty to Coimbatore under ₹10000'
+        error: 'Please provide a message',
+        example: 'Plan a 2 day trip from Chennai to Ooty under ₹15000'
       })
     }
 
-    console.log('Received prompt:', prompt)
+    console.log('Received message:', prompt)
 
-    // Step 1: Parse the prompt
-    const params = parsePrompt(prompt)
-    console.log('Parsed parameters:', params)
+    // Step 1: Classify user intent
+    const { intent, confidence, needsMoreInfo } = await classifyIntent(prompt)
+    console.log(`Intent: ${intent}, Confidence: ${confidence}, Needs more info: ${needsMoreInfo}`)
 
-    // Step 2: Validate parameters
-    const validation = validateParameters(params)
-    if (!validation.valid) {
-      return res.status(400).json({ 
-        error: 'Invalid trip parameters',
-        details: validation.errors
+    // Step 2: Handle based on intent
+    
+    // For general questions or casual chat - use conversational AI
+    if (intent === 'question' || intent === 'casual') {
+      const aiResponse = await generateConversationalResponse(prompt, conversationHistory)
+      return res.json({
+        type: 'conversation',
+        message: aiResponse,
+        intent: intent
       })
+    }
+
+    // For trip planning - extract parameters
+    const params = extractTripParameters(prompt, conversationHistory)
+    console.log('Extracted parameters:', params)
+
+    // Check if we have enough info to plan
+    if (!hasEnoughTripInfo(params) || needsMoreInfo) {
+      // Ask for missing information conversationally
+      let response = generateMissingInfoPrompt(params)
+      
+      // If no specific missing fields but still needs info, use AI
+      if (!response) {
+        response = await generateConversationalResponse(
+          `User wants to plan a trip but I need more details. Here's what they said: "${prompt}". Ask them politely for: destination, duration, and optionally budget and starting location.`,
+          conversationHistory
+        )
+      }
+      
+      return res.json({
+        type: 'clarification',
+        message: response,
+        partialParams: params,
+        intent: 'trip_planning'
+      })
+    }
+
+    // We have enough info - proceed with trip planning
+    console.log('Starting trip generation with full parameters:', params)
+
+    // Add defaults
+    if (!params.date) params.date = new Date()
+    if (!params.travelers) params.travelers = 1
+    if (!params.duration) params.duration = 1
+
+    // Step 2.5: Validate destination (check if it's a real place)
+    const destinationCheck = await validateDestination(params.destination)
+    if (destinationCheck && !destinationCheck.valid) {
+      return res.json({
+        type: 'error',
+        message: `I couldn't find information about "${params.destination}". ${destinationCheck.message || 'Please check the spelling or try a different destination.'}`,
+        suggestion: destinationCheck.correctedName || null
+      })
+    }
+
+    // Log destination info
+    if (destinationCheck && destinationCheck.country) {
+      console.log(`✓ Destination: ${params.destination}, ${destinationCheck.country} (${destinationCheck.continent})`)
     }
 
     // Step 3: Gather data in parallel
-    console.log('Starting data collection...')
+    console.log('Fetching travel data...')
     
-    const dateStr = params.date.toISOString().split('T')[0]
+    const dateStr = params.date.toISOString ? params.date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
     
     const [transportOptions, places, restaurants, weather] = await Promise.all([
       scrapeTransportOptions(params.source || params.destination, params.destination, dateStr),
@@ -53,7 +113,7 @@ router.post('/plan-trip', async (req, res) => {
       getWeatherForecast(params.destination)
     ])
 
-    console.log(`Collected: ${transportOptions.length} transport options, ${places.length} places, ${restaurants.length} restaurants`)
+    console.log(`Collected: ${transportOptions.length} transport, ${places.length} places, ${restaurants.length} restaurants`)
 
     // Step 4: Generate trip plans
     const plans = generateTripPlans(params, transportOptions, places, restaurants, weather)
@@ -88,6 +148,7 @@ router.post('/plan-trip', async (req, res) => {
 
     // Step 7: Prepare response
     const response = {
+      type: 'trip_plan',
       budget_plan: {
         ...plans.budget_plan,
         timeline: budgetTimeline
@@ -104,7 +165,7 @@ router.post('/plan-trip', async (req, res) => {
         source: params.source,
         destination: params.destination,
         duration: `${params.duration} day${params.duration > 1 ? 's' : ''}`,
-        date: params.date.toLocaleDateString('en-IN'),
+        date: params.date.toLocaleDateString ? params.date.toLocaleDateString('en-IN') : dateStr,
         budget: params.budget ? `₹${params.budget}` : 'Not specified',
         travelers: params.travelers,
         recommended_plan: plans.recommended
@@ -130,7 +191,7 @@ router.post('/plan-trip', async (req, res) => {
               budget: params.budget,
               duration: params.duration,
               travelers: params.travelers,
-              trip_date: params.date.toISOString().split('T')[0],
+              trip_date: dateStr,
               budget_plan: response.budget_plan,
               comfort_plan: response.comfort_plan,
               comparison_table: plans.comparison_table,
@@ -159,11 +220,12 @@ router.post('/plan-trip', async (req, res) => {
     res.json(response)
 
   } catch (error) {
-    console.error('Error planning trip:', error)
+    console.error('Error in trip planning:', error)
     res.status(500).json({ 
-      error: 'Failed to plan trip',
-      message: error.message,
-      details: 'Please try again or contact support if the issue persists'
+      type: 'error',
+      error: 'Failed to process your request',
+      message: 'Sorry, I encountered an error. Please try again or rephrase your message.',
+      details: error.message
     })
   }
 })

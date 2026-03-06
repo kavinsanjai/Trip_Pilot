@@ -1,11 +1,33 @@
 import { chromium } from 'playwright'
+import { generatePlacesWithAI } from '../services/aiDataGenerator.js'
 
 /**
- * Scrape tourist places from TripAdvisor and Google Maps
+ * Scrape tourist places - AI-powered for ANY destination worldwide
  * @param {string} destination - Destination city
  * @returns {Promise<Array>} Array of places to visit
  */
 export async function scrapeTouristPlaces(destination) {
+  console.log(`Fetching tourist places for ${destination}...`)
+  
+  // Try AI generation first (works for ANY destination)
+  try {
+    const aiPlaces = await generatePlacesWithAI(destination)
+    if (aiPlaces && aiPlaces.length > 0) {
+      console.log(`✓ Generated ${aiPlaces.length} places for ${destination} using AI`)
+      return aiPlaces
+    }
+  } catch (error) {
+    console.log('AI generation failed, trying web scraping...')
+  }
+  
+  // Fallback to web scraping
+  return await scrapeFromWeb(destination)
+}
+
+/**
+ * Web scraping fallback method
+ */
+async function scrapeFromWeb(destination) {
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage()
   
