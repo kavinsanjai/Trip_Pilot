@@ -38,7 +38,7 @@ const SignupForm = () => {
       return
     }
 
-    const { data, error } = await signUp(formData.email, formData.password, formData.username)
+    const { error } = await signUp(formData.email, formData.password, formData.username)
     
     if (error) {
       setError(error.message)

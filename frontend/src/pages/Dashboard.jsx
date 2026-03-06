@@ -10,7 +10,7 @@ import Checklist from '../components/Checklist'
 const Dashboard = () => {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
-  const [tripData, setTripData] = useState(null)
+  const [_tripData, setTripData] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [currentView, setCurrentView] = useState('chat') // 'chat', 'history', 'saved', 'preferences'
   const navigate = useNavigate()

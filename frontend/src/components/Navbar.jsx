@@ -24,6 +24,9 @@ const Navbar = () => {
             <Link to="#contact" className="text-gray-700 hover:text-primary transition-colors font-medium">
               CONTACT US
             </Link>
+            <Link to="/agent" className="text-gray-700 hover:text-primary transition-colors">
+              AI Agent
+            </Link>
           </div>
 
           {/* Login Button */}
