@@ -1,9 +1,11 @@
 const FeatureCard = ({ icon, title, description }) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+    <div className="bg-white/10 backdrop-blur-sm border border-white/15 p-6 rounded-2xl hover:bg-white/20 hover:border-primary transition-all duration-300 group">
+      <div className="w-14 h-14 bg-primary/20 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+        {icon}
+      </div>
+      <h3 className="text-lg font-black text-white uppercase mb-2 heading-font">{title}</h3>
+      <p className="text-white/55 text-sm leading-relaxed">{description}</p>
     </div>
   )
 }

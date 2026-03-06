@@ -63,64 +63,67 @@ const SignupForm = () => {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h2>
-        <p className="text-gray-600 mb-6">Sign up to start your journey</p>
+      <div className="bg-white/80 backdrop-blur-sm border-2 border-navy/10 rounded-2xl p-8 shadow-xl">
+        <div className="mb-6">
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-1">Get Started</p>
+          <h2 className="text-4xl font-black text-navy uppercase heading-font">Create Account</h2>
+          <p className="text-navy/50 text-sm mt-1">Sign up to start your journey</p>
+        </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-50 border-l-4 border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSignup} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Username</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Username</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Choose a username"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Create a password"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Confirm your password"
               required
             />
@@ -129,26 +132,26 @@ const SignupForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-navy text-cream py-3 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Creating Account...' : 'Sign Up'}
+            {loading ? 'Creating Account...' : 'Create Account →'}
           </button>
         </form>
 
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full border-t border-navy/15"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              <span className="px-3 bg-white/80 text-navy/40 text-xs font-bold uppercase tracking-widest">Or continue with</span>
             </div>
           </div>
 
           <button
             onClick={handleGoogleSignup}
             disabled={loading}
-            className="mt-4 w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-4 w-full flex items-center justify-center gap-3 bg-cream border-2 border-navy/15 text-navy py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:border-primary hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -173,9 +176,9 @@ const SignupForm = () => {
         </div>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600">
+          <p className="text-navy/60 text-sm">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary font-semibold hover:underline">
+            <Link to="/login" className="text-primary font-bold hover:text-primary-dark uppercase text-xs tracking-widest">
               Login
             </Link>
           </p>

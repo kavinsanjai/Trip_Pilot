@@ -38,43 +38,46 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
-        <p className="text-gray-600 mb-6">Login to continue your journey</p>
+      <div className="bg-white/80 backdrop-blur-sm border-2 border-navy/10 rounded-2xl p-8 shadow-xl">
+        <div className="mb-6">
+          <p className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-1">Welcome Back</p>
+          <h2 className="text-4xl font-black text-navy uppercase heading-font">Sign In</h2>
+          <p className="text-navy/50 text-sm mt-1">Login to continue your journey</p>
+        </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-50 border-l-4 border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
             {error}
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Password</label>
+            <label className="block text-navy/70 font-bold text-xs uppercase tracking-widest mb-2">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 bg-cream border-2 border-navy/15 rounded-xl text-navy placeholder-navy/30 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="Enter your password"
               required
             />
           </div>
 
           <div className="text-right">
-            <Link to="/forgot-password" className="text-primary hover:underline text-sm">
+            <Link to="/forgot-password" className="text-primary hover:text-primary-dark text-xs font-bold uppercase tracking-widest">
               Forgot Password?
             </Link>
           </div>
@@ -82,26 +85,26 @@ const LoginForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-navy text-cream py-3 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Signing in...' : 'Login →'}
           </button>
         </form>
 
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full border-t border-navy/15"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              <span className="px-3 bg-white/80 text-navy/40 text-xs font-bold uppercase tracking-widest">Or continue with</span>
             </div>
           </div>
 
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="mt-4 w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-4 w-full flex items-center justify-center gap-3 bg-cream border-2 border-navy/15 text-navy py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:border-primary hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -126,9 +129,9 @@ const LoginForm = () => {
         </div>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600">
+          <p className="text-navy/60 text-sm">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-primary font-semibold hover:underline">
+            <Link to="/signup" className="text-primary font-bold hover:text-primary-dark uppercase text-xs tracking-widest">
               Sign Up
             </Link>
           </p>

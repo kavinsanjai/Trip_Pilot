@@ -1,12 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F5F0E6;
+}
+
+/* Graph paper / grid paper texture — matches the PPT background */
+.grid-bg {
+  background-color: #F5F0E6;
+  background-image:
+    linear-gradient(rgba(91, 75, 190, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91, 75, 190, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.heading-font {
+  font-family: 'Oswald', sans-serif;
+}
+
+/* Subtle grid on dark (navy) sections */
+.grid-bg-dark {
+  background-color: #1C1C2E;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
