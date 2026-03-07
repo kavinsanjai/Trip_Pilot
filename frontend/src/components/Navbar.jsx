@@ -1,6 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { signOut } from '../services/supabaseClient'
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
   return (
     <nav className="bg-white/90 backdrop-blur-sm shadow-md sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,12 +32,14 @@ const Navbar = () => {
             <Link to="#contact" className="text-gray-700 hover:text-primary transition-colors font-medium">
               CONTACT US
             </Link>
-            <Link to="/agent" className="text-gray-700 hover:text-primary transition-colors">
-              AI Agent
-            </Link>
+            {user && (
+              <Link to="/agent" className="text-gray-700 hover:text-primary transition-colors font-medium">
+                AI Agent
+              </Link>
+            )}
           </div>
 
-          {/* Login Button */}
+          {/* Login/Logout Button */}
           <div className="flex items-center gap-4">
             <div className="hidden lg:flex relative">
               <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,12 +51,29 @@ const Navbar = () => {
                 className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary bg-white"
               />
             </div>
-            <Link
-              to="/login"
-              className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition-all duration-300 shadow-md hover:shadow-lg font-medium"
-            >
-              Login
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/dashboard"
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition-all duration-300 shadow-md hover:shadow-lg font-medium"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition-all duration-300 shadow-md hover:shadow-lg font-medium"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -44,8 +44,8 @@ const SignupForm = () => {
       setError(error.message)
       setLoading(false)
     } else {
-      // Auto-login successful - redirect to dashboard
-      navigate('/dashboard')
+      // Auto-login successful - redirect to AI Agent
+      navigate('/agent')
     }
   }
 

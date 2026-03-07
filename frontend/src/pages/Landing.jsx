@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import FeatureCard from '../components/FeatureCard'
 
-const Landing = () => {
+const Landing = ({ user }) => {
   const features = [
     {
       icon: (
@@ -45,7 +45,7 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar user={user} />
 
       {/* Hero Section */}
       <section className="py-20 px-4 relative overflow-hidden">
