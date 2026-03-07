@@ -10,7 +10,7 @@ const PHASE_META = {
   done:        { label: 'Done',        color: 'bg-emerald-500' },
 }
 
-const Agent = () => {
+const Agent = ({ user }) => {
   const wsRef = useRef(null)
   const logEndRef = useRef(null)
 
@@ -245,7 +245,7 @@ const Agent = () => {
   // ─── Render ────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-gray-950 text-white flex flex-col">
-      <Navbar />
+      <Navbar user={user} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* ━━ Left Sidebar ━━ */}

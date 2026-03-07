@@ -218,6 +218,7 @@ async function planTasks(model, userGoal, ws) {
 const MAX_STEPS_PER_QUERY = 6;  // each step is one Gemini call
 const MAX_QUERIES_PER_TASK = 1; // only use the first search query per task
 const MAX_REPEAT_ACTIONS = 3;   // bail if same action type repeats this many times
+const MAX_ITEMS_PER_TASK = 5;   // maximum items to extract per task (for quick demo)
 
 // Sites that require complex form interactions — avoid navigating into them.
 // The agent should extract data from Google snippets about these sites instead.
@@ -393,8 +394,19 @@ async function researchTask(model, task, constraints, browser, ws, signal) {
 
       // Handle extract
       if (action.action === 'extract' && Array.isArray(action.data) && action.data.length > 0) {
-        findings.push(...action.data.map((d) => ({ ...d, source: currentUrl, category: task.category })));
-        safeSend(ws, { type: 'DATA_COLLECTED', taskId: task.id, count: findings.length, latest: action.data });
+        // Limit the number of items added to prevent excessive extraction
+        const itemsToAdd = action.data.slice(0, MAX_ITEMS_PER_TASK - findings.length);
+        if (itemsToAdd.length > 0) {
+          findings.push(...itemsToAdd.map((d) => ({ ...d, source: currentUrl, category: task.category })));
+          safeSend(ws, { type: 'DATA_COLLECTED', taskId: task.id, count: findings.length, latest: itemsToAdd });
+        }
+        
+        // If we've reached the limit, stop this task
+        if (findings.length >= MAX_ITEMS_PER_TASK) {
+          safeSend(ws, { type: 'REASONING', text: `[${task.category}] Reached limit of ${MAX_ITEMS_PER_TASK} items — task complete` });
+          break;
+        }
+        
         await sleep(10000);
         continue;
       }
