@@ -48,67 +48,79 @@ const Landing = ({ user }) => {
       <Navbar user={user} />
 
       {/* Hero Section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-mint/10 rounded-full blur-3xl"></div>
+      <section className="py-20 px-4 relative overflow-hidden bg-gradient-to-br from-gray-50 to-white min-h-[80vh] flex items-center">
+        {/* Decorative Elements - Scattered */}
+        <div className="absolute top-1/4 left-8 text-[12rem] opacity-30">
+          ✈️
+        </div>
+        <div className="absolute top-20 right-16 text-[8rem] opacity-35">
+          🎒
+        </div>
+        <div className="absolute bottom-24 right-24 text-[10rem] opacity-40">
+          🧳
+        </div>
+        <div className="absolute top-1/2 right-12 text-[6rem] opacity-35">
+          🗺️
+        </div>
+        <div className="absolute bottom-16 left-1/3 text-[5rem] opacity-35">
+          🏖️
+        </div>
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-4 leading-tight">
-            TRAVEL AGENT – AUTOMATED TRIP<br />
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+            TRAVEL AGENT –<br />
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              AUTOMATED TRIP
+            </span><br />
             PLANNER & BOOKING ASSISTANT
           </h1>
-          <p className="text-lg md:text-xl text-secondary mb-6 max-w-3xl mx-auto font-medium">
+          <p className="text-lg md:text-xl text-gray-500 mb-12 max-w-3xl mx-auto font-medium tracking-wide">
             AN INTELLIGENT WEB AGENT FOR SMART TRAVEL PLANNING
           </p>
-          <p className="text-xl md:text-2xl font-semibold text-gray-800 mb-8 max-w-4xl mx-auto">
-            PLAN YOUR ENTIRE TRIP IN SECONDS - WITHOUT SWITCHING<br />
-            BETWEEN DOZENS OF WEBSITES
-          </p>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-full text-base font-semibold hover:bg-secondary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-          >
-            LEARN MORE
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <Link
+              to="/agent"
+              className="inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 text-base font-bold hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            >
+              START PLANNING
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link
+              to="#features"
+              className="inline-flex items-center gap-2 bg-transparent border-2 border-gray-900 text-gray-900 px-8 py-4 text-base font-bold hover:bg-gray-900 hover:text-white transition-all duration-300"
+            >
+              LEARN MORE
+            </Link>
+          </div>
 
-          {/* Hero Illustration */}
-          <div className="mt-16 relative">
-            <div className="flex justify-center items-center gap-8">
-              {/* Left Decorative Circle */}
-              <div className="hidden lg:block relative">
-                <div className="w-48 h-48 bg-gradient-to-br from-accent-purple/20 to-accent-blue/20 rounded-full animate-pulse"></div>
-                <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-accent-purple" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                </svg>
-              </div>
-              
-              {/* Center Airplane */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-2xl opacity-20 scale-110"></div>
-                <svg className="w-48 h-48 md:w-64 md:h-64 text-primary relative z-10 drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                </svg>
-              </div>
-              
-              {/* Right Decorative Circle */}
-              <div className="hidden lg:block relative">
-                <div className="w-48 h-48 bg-gradient-to-br from-accent-mint/20 to-accent-coral/20 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-accent-mint" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-              </div>
+          {/* Statistics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+              <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                10K+
+              </p>
+              <p className="text-gray-500 font-semibold text-sm tracking-wide uppercase">
+                Trips Planned
+              </p>
             </div>
-            
-            {/* Floating Elements */}
-            <div className="absolute top-10 left-10 hidden xl:block">
-              <div className="w-16 h-16 bg-accent-coral/30 rounded-2xl rotate-12 animate-bounce"></div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+              <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                97%
+              </p>
+              <p className="text-gray-500 font-semibold text-sm tracking-wide uppercase">
+                Satisfaction
+              </p>
             </div>
-            <div className="absolute bottom-10 right-10 hidden xl:block">
-              <div className="w-20 h-20 bg-accent-blue/30 rounded-full animate-bounce" style={{animationDelay: '0.5s'}}></div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+              <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                50+
+              </p>
+              <p className="text-gray-500 font-semibold text-sm tracking-wide uppercase">
+                Countries
+              </p>
             </div>
           </div>
         </div>
