@@ -38,43 +38,43 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 border-2 border-accent-mint">
-        <h2 className="text-3xl font-bold text-primary mb-2">Welcome Back</h2>
-        <p className="text-gray-700 mb-6">Login to continue your journey</p>
+      <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-200">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+        <p className="text-gray-600 mb-6">Login to continue your journey</p>
 
         {error && (
-          <div className="bg-red-100 border-2 border-red-400 text-red-700 px-4 py-3 rounded-2xl mb-4">
+          <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
             {error}
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Email</label>
+            <label className="block text-gray-700 font-medium mb-2 text-sm">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               placeholder="Enter your email"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Password</label>
+            <label className="block text-gray-700 font-medium mb-2 text-sm">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               placeholder="Enter your password"
               required
             />
           </div>
 
           <div className="text-right">
-            <Link to="/forgot-password" className="text-primary hover:underline text-sm font-medium">
+            <Link to="/forgot-password" className="text-indigo-600 hover:underline text-sm font-medium">
               Forgot Password?
             </Link>
           </div>
@@ -82,7 +82,7 @@ const LoginForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded-full font-semibold hover:bg-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 font-semibold hover:from-purple-600 hover:to-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
@@ -91,7 +91,7 @@ const LoginForm = () => {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t-2 border-gray-300"></div>
+              <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-white text-gray-500 font-medium">Or continue with</span>
@@ -101,7 +101,7 @@ const LoginForm = () => {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="mt-4 w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+            className="mt-4 w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 py-3 font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -126,9 +126,9 @@ const LoginForm = () => {
         </div>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-700">
+          <p className="text-gray-600 text-sm">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-primary font-semibold hover:underline">
+            <Link to="/signup" className="text-indigo-600 hover:underline font-semibold">
               Sign Up
             </Link>
           </p>
